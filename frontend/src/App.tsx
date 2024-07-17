@@ -1,13 +1,11 @@
-import { useEffect } from "react";
-import { generate } from "shortid";
-import "./App.css";
+import { Button } from "@/components/ui/button";
 
 function App() {
-  useEffect(() => {
-    console.log(generate());
-  }, []);
-
-  return <div>Hello there</div>;
+  return (
+    <div>
+      <Button>Hello</Button>
+    </div>
+  );
 }
 
 export default App;
