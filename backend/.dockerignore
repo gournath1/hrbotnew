@@ -1,10 +1,10 @@
 # Node.js
-node_modules/
-npm-debug.log*
-yarn-error.log*
-.pnp/
+node_modules
+npm-debug.log
+yarn-error.log
+.pnp
 .pnp.js
-.vscode/
+.vscode
 
 # Logs
 logs
@@ -14,30 +14,20 @@ pids
 *.seed
 *.pid.lock
 
-# OS files
-.DS_Store
-
 # Dependency directories
-node_modules/
-__pycache__/
+node_modules
 
 # Python
-*.py[cod]
-*.so
-*.egg
-*.egg-info/
-dist/
-build/
 *.pyc
 *.pyo
-.Python
+__pycache__
 
 # Environments
 .env
 .venv
-env/
-env.bak/
-venv/
+env
+env.bak
+venv
 
 # macOS
 .DS_Store
@@ -56,27 +46,16 @@ venv/
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
 
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
 # IDEs
-.idea/
+.idea
 *.sublime-workspace
 *.sublime-project
 
 # Coverage
-coverage/
+coverage
 *.cover
-.hypothesis/
-.pytest_cache/
-
-# Docker
-docker-compose.override.yml
-.env.docker
+.hypothesis
+.pytest_cache
 
 # Misc
 *.swp
