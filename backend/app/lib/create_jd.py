@@ -1,3 +1,6 @@
+import openai
+import os
+
 def create_prompt(parameters: dict) -> str:
     """ Create a prompt for the job description GPT-3 model.
         Args:
