@@ -29,12 +29,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
-  industry: z.string(),
-  jobTitle: z.string(),
-  location: z.string(),
-  experience: z.string(),
+  industry: z.string().min(1, "Can't be empty"),
+  jobTitle: z.string().min(1, "Can't be empty"),
+  location: z.string().min(1, "Can't be empty"),
+  experience: z.string().min(1, "Can't be empty"),
   keySkills: z.string().optional(),
   education: z.string().optional(),
   roles: z.string().optional(),
@@ -60,6 +61,7 @@ const primaryFields: GenerateJDField[] = [
     label: "Industry",
     description: "AI Labs, Renewable Energy",
     suggestions: ["Agriculture", "IT", "Medical", "Medicine"],
+    required: true,
   },
   {
     type: FieldType.AutoComplete,
@@ -67,18 +69,21 @@ const primaryFields: GenerateJDField[] = [
     label: "Job Title",
     description: "Eg. Product Manager",
     suggestions: [],
+    required: true,
   },
   {
     type: FieldType.AutoComplete,
     name: "location",
     label: "Location",
     suggestions: [],
+    required: true,
   },
   {
     type: FieldType.Input,
     name: "experience",
     label: "Experience (in years)",
     description: "Eg. 10-12 years..",
+    required: true,
   },
 ];
 
@@ -160,7 +165,6 @@ const systemFields: GenerateJDField[] = [
 ];
 
 export default function GenerateJD() {
-  // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -181,10 +185,7 @@ export default function GenerateJD() {
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
 
@@ -208,7 +209,9 @@ export default function GenerateJD() {
             name={f.name}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{f.label}</FormLabel>
+                <FormLabel className={cn(f.required && "after:content-['*']")}>
+                  {f.label}
+                </FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -227,7 +230,9 @@ export default function GenerateJD() {
             name={f.name}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{f.label}</FormLabel>
+                <FormLabel className={cn(f.required && "after:content-['*']")}>
+                  {f.label}
+                </FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}

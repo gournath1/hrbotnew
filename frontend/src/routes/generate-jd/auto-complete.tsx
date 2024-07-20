@@ -28,9 +28,10 @@ export default function AutoComplete({
   name,
   label,
   description,
+  required,
 }: AutoCompleteProps) {
   const [items, setItems] = useState(suggestions);
-  const { setValue } = useFormContext();
+  const { setValue, register } = useFormContext();
 
   const {
     isOpen,
@@ -43,17 +44,33 @@ export default function AutoComplete({
     items,
     onInputValueChange({ inputValue }) {
       setItems(suggestions.filter(getSuggestionFilter(inputValue)));
-      setValue(name, inputValue);
+      setValue(name, inputValue, {
+        shouldValidate: true,
+      });
     },
     itemToString(item) {
       return item || "";
     },
   });
 
+  const { ref: comboboxRef, ...rest } = getInputProps() as any;
+
   return (
     <FormItem className="relative">
-      <FormLabel {...getLabelProps()}>{label}</FormLabel>
-      <Input {...getInputProps()} name={name} />
+      <FormLabel
+        {...getLabelProps()}
+        className={cn(required && "after:content-['*']")}
+      >
+        {label}
+      </FormLabel>
+      <Input
+        {...rest}
+        name={name}
+        ref={(ref) => {
+          register(name).ref(ref);
+          comboboxRef(ref);
+        }}
+      />
       <div
         className={cn(
           "absolute w-full bg-white mt-1 p-0 z-10 max-h-56 border rounded-md overflow-auto",

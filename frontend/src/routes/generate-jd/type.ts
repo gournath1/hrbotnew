@@ -9,6 +9,7 @@ interface FieldCore<T> {
   name: keyof T;
   label: string;
   description?: string;
+  required?: boolean;
 }
 
 export interface AutoCompleteField<T> extends FieldCore<T> {
