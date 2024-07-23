@@ -1,12 +1,8 @@
-import openai
 import os
-from dotenv import load_dotenv
- 
-load_dotenv()
- 
-# openai.api_key = os.getenv("OPENAI_API_KEY")
-# openai.api_base = os.getenv("OPENAI_API_BASE")
- 
+
+import openai
+
+
 def create_prompt(parameters: dict) -> str:
     """ Create a prompt for the job description GPT-3 model.
         Args:
@@ -68,8 +64,10 @@ async def get_job_description(user_prompt: str, params):
             consistency with the business requirements.Consider the Adani company culture and values, ensuring the job description template is tailored to attract top talent while providing a clear understanding of the expectations
             and opportunities associated with the position. Additionally, incorporate inclusive language and showcase the potential for growth within the Adani organization to appeal to a diverse and motivated pool of candidates
             Specifically mention the technical skills required for the given industry and consider the years of experience while deciding the techinal skills for the Job Description."""
- 
- 
+
+    print(os.getenv('OPENAI_API_BASE'))
+    print(os.getenv('OPENAI_API_KEY'))
+
     # Configure Azure OpenAI Service API
     openai.api_type = "azure"
     openai.api_version = "2024-02-01"

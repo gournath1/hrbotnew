@@ -1,6 +1,7 @@
 # from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+
 from app.lib.create_jd import create_job_description
 
 # Load environment variables from the .env file
