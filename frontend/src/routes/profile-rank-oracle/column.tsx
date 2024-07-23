@@ -30,3 +30,20 @@ export const columns: ColumnDef<JobRequisition>[] = [
     header: "Application",
   },
 ];
+
+export const dummyData: JobRequisition[] = [
+  {
+    id: "1",
+    application: "Something",
+    jobRequisition: "Test",
+    location: "Kolkata",
+    srNo: "2045",
+  },
+  {
+    id: "2",
+    application: "Something2",
+    jobRequisition: "Test2",
+    location: "Delhi",
+    srNo: "dh55",
+  },
+];

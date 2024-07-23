@@ -16,6 +16,7 @@ import { z } from "zod";
 import AutoComplete from "./auto-complete";
 import { Field, FieldType } from "./type";
 
+import { generateJD } from "@/api/generate-jd";
 import { PageHeading, PageSubheading } from "@/components/typography";
 import {
   Accordion,
@@ -30,7 +31,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
+import autoCompleteData from "./autofill_master.json";
 
 const formSchema = z.object({
   industry: z.string().min(1, "Can't be empty"),
@@ -61,7 +65,7 @@ const primaryFields: GenerateJDField[] = [
     name: "industry",
     label: "Industry",
     description: "AI Labs, Renewable Energy",
-    suggestions: ["Agriculture", "IT", "Medical", "Medicine"],
+    suggestions: autoCompleteData.Industry,
     required: true,
   },
   {
@@ -69,14 +73,14 @@ const primaryFields: GenerateJDField[] = [
     name: "jobTitle",
     label: "Job Title",
     description: "Eg. Product Manager",
-    suggestions: [],
+    suggestions: autoCompleteData.Job_title,
     required: true,
   },
   {
     type: FieldType.AutoComplete,
     name: "location",
     label: "Location",
-    suggestions: [],
+    suggestions: autoCompleteData.Location,
     required: true,
   },
   {
@@ -98,7 +102,7 @@ const advancedFields: GenerateJDField[] = [
     type: FieldType.AutoComplete,
     name: "education",
     label: "Educational Qualification",
-    suggestions: ["BE", "Graduation", "MA", "B.Com"],
+    suggestions: autoCompleteData.Education,
   },
   {
     type: FieldType.Input,
@@ -186,8 +190,14 @@ export default function GenerateJD() {
     },
   });
 
+  const { toast } = useToast();
+
+  const mutation = useMutation({
+    mutationFn: generateJD
+  });
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    mutation.mutate(values);
   }
 
   function renderField(f: GenerateJDField) {

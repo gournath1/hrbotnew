@@ -1,10 +1,4 @@
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { flexRender, Table as TableType } from "@tanstack/react-table";
 
 import {
   Table,
@@ -16,22 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./button";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}
-
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-  });
-
+export function DataTableUI<TData>({ table }: { table: TableType<TData> }) {
   return (
     <div>
       <div className="rounded-md border">
@@ -74,7 +53,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={table.getAllColumns().length}
                   className="h-24 text-center"
                 >
                   No results.
