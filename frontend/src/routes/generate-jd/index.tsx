@@ -16,6 +16,7 @@ import { z } from "zod";
 import AutoComplete from "./auto-complete";
 import { Field, FieldType } from "./type";
 
+import { PageHeading, PageSubheading } from "@/components/typography";
 import {
   Accordion,
   AccordionContent,
@@ -265,8 +266,10 @@ export default function GenerateJD() {
   return (
     <div className="py-20 container max-w-screen-xl">
       <div className="mb-10">
-        <h1 className="text-3xl font-bold mb-2">Generate Job Description</h1>
-        <p>Generate job description in just few steps</p>
+        <PageHeading>Generate Job Description</PageHeading>
+        <PageSubheading>
+          Generate job description in just few steps
+        </PageSubheading>
       </div>
 
       <Form {...form}>
