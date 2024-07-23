@@ -1,12 +1,16 @@
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from lib.create_jd import create_job_description
+from app.lib.create_jd import create_job_description
 
 # Load environment variables from the .env file
-load_dotenv()
+# load_dotenv()
 
 app = FastAPI()
+
+@app.get("/example")
+async def example():
+     return "This is FastAPI"
 
 @app.post("/create-jd")
 async def generate_jd(request: Request):
