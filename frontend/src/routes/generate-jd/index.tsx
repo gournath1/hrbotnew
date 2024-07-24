@@ -17,6 +17,7 @@ import AutoComplete from "./auto-complete";
 import { Field, FieldType } from "./type";
 
 import { generateJD } from "@/api/generate-jd";
+import { PageContainer, PageHeaderSection } from "@/components/layout";
 import { PageHeading, PageSubheading } from "@/components/typography";
 import {
   Accordion,
@@ -31,7 +32,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import autoCompleteData from "./autofill_master.json";
@@ -190,10 +190,8 @@ export default function GenerateJD() {
     },
   });
 
-  const { toast } = useToast();
-
   const mutation = useMutation({
-    mutationFn: generateJD
+    mutationFn: generateJD,
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -274,13 +272,13 @@ export default function GenerateJD() {
   }
 
   return (
-    <div className="py-20 container max-w-screen-xl">
-      <div className="mb-10">
+    <PageContainer>
+      <PageHeaderSection>
         <PageHeading>Generate Job Description</PageHeading>
         <PageSubheading>
           Generate job description in just few steps
         </PageSubheading>
-      </div>
+      </PageHeaderSection>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -319,6 +317,6 @@ export default function GenerateJD() {
           </Button>
         </form>
       </Form>
-    </div>
+    </PageContainer>
   );
 }
