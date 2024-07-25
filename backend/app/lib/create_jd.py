@@ -1,67 +1,8 @@
-import openai
-import io
 import os
-import datetime
-import asyncio
-import uuid
-from docx import Document
-from docx2python import docx2python as HtmlToDocx
-# from builtins import PendingDeprecationWarning
-from azure.identity.aio import DefaultAzureCredential
-from azure.storage.blob.aio import BlobServiceClient
-from azure.cosmos.aio import CosmosClient
-from dotenv import load_dotenv
- 
-load_dotenv()
- 
-ADLS_CONTAINER = 'landing'
-SAS_TOKEN = os.environ["SAS_TOKEN"]
-COSMOS_URL = os.environ["COSMOS_URL"]
-COSMOS_KEY = os.environ["COSMOS_KEY"]
-COSMOS_DATABASE = os.environ["COSMOS_DATABASE"]
-STORAGE_ACCOUNT_URL = os.environ["STORAGE_ACCOUNT_URL"]
-CONTAINER_NAME = 'recruitbot'
- 
-async def insert_record(data:dict, container_name) -> None:
-    async with CosmosClient(COSMOS_URL, credential=COSMOS_KEY, connection_verify=False) as client:
-        database = client.get_database_client(COSMOS_DATABASE)
-        container = database.get_container_client(container_name)        
-        await container.upsert_item(data)
- 
-async def create_and_upload_blob_file(html_content, params):
- 
-    document = Document()
-    # document.add_picture('static/logo/Adani Logo.png')
-    document.add_paragraph(html_content, style='Normal')  
-    # new_parser = HtmlToDocx()
-    style = document.styles['Normal']
-    font = style.font
-    font.name = 'Adani Regular'
-    # new_parser.add_html_to_document(html_content, document)
- 
-    io_buffer = io.BytesIO()
-    document.save(io_buffer)
-    io_buffer.seek(0)
- 
-    filename = f"{params['user_name']}/jd/{datetime.date.today().strftime('%Y%m%d')}/{str(params['job_title']).strip()}_{datetime.datetime.now().strftime('%H%M%S')}.docx"
- 
-    async def upload_blob():  # Define an inner async function
-        async with DefaultAzureCredential() as credential:
-            async with BlobServiceClient(STORAGE_ACCOUNT_URL, credential, connection_verify=False) as blob_service_client:
-                container_client = blob_service_client.get_container_client(container=ADLS_CONTAINER)
-                blob_client = await container_client.upload_blob(
-                    name=filename, data=io_buffer, overwrite=True
-                )
-                return blob_client.url
- 
-    params['file_created'] = await upload_blob()
-    params['id'] = str(uuid.uuid4())
-    params['run_date'] = str(datetime.datetime.now().date())
-   
-    await insert_record(params, container_name='recruitbot')
- 
-    return params['file_created']
- 
+
+import openai
+
+
 def create_prompt(parameters: dict) -> str:
     """ Create a prompt for the job description GPT-3 model.
         Args:
@@ -123,8 +64,10 @@ async def get_job_description(user_prompt: str, params):
             consistency with the business requirements.Consider the Adani company culture and values, ensuring the job description template is tailored to attract top talent while providing a clear understanding of the expectations
             and opportunities associated with the position. Additionally, incorporate inclusive language and showcase the potential for growth within the Adani organization to appeal to a diverse and motivated pool of candidates
             Specifically mention the technical skills required for the given industry and consider the years of experience while deciding the techinal skills for the Job Description."""
- 
- 
+
+    print(os.getenv('OPENAI_API_BASE'))
+    print(os.getenv('OPENAI_API_KEY'))
+
     # Configure Azure OpenAI Service API
     openai.api_type = "azure"
     openai.api_version = "2024-02-01"

@@ -16,13 +16,19 @@ import { z } from "zod";
 import AutoComplete from "./auto-complete";
 import { Field, FieldType } from "./type";
 
-import { PageHeading, PageSubheading } from "@/components/typography";
+import { generateJD } from "@/api/generate-jd";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { PageContainer } from "@/components/ui/layout";
+import {
+  PageHeader,
+  PageHeaderSubheading,
+  PageHeaderTitle,
+} from "@/components/ui/page-header";
 import {
   Select,
   SelectContent,
@@ -31,6 +37,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
+import autoCompleteData from "./autofill_master.json";
 
 const formSchema = z.object({
   industry: z.string().min(1, "Can't be empty"),
@@ -61,7 +69,7 @@ const primaryFields: GenerateJDField[] = [
     name: "industry",
     label: "Industry",
     description: "AI Labs, Renewable Energy",
-    suggestions: ["Agriculture", "IT", "Medical", "Medicine"],
+    suggestions: autoCompleteData.Industry,
     required: true,
   },
   {
@@ -69,14 +77,14 @@ const primaryFields: GenerateJDField[] = [
     name: "jobTitle",
     label: "Job Title",
     description: "Eg. Product Manager",
-    suggestions: [],
+    suggestions: autoCompleteData.Job_title,
     required: true,
   },
   {
     type: FieldType.AutoComplete,
     name: "location",
     label: "Location",
-    suggestions: [],
+    suggestions: autoCompleteData.Location,
     required: true,
   },
   {
@@ -98,7 +106,7 @@ const advancedFields: GenerateJDField[] = [
     type: FieldType.AutoComplete,
     name: "education",
     label: "Educational Qualification",
-    suggestions: ["BE", "Graduation", "MA", "B.Com"],
+    suggestions: autoCompleteData.Education,
   },
   {
     type: FieldType.Input,
@@ -186,8 +194,12 @@ export default function GenerateJD() {
     },
   });
 
+  const mutation = useMutation({
+    mutationFn: generateJD,
+  });
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    mutation.mutate(values);
   }
 
   function renderField(f: GenerateJDField) {
@@ -264,13 +276,13 @@ export default function GenerateJD() {
   }
 
   return (
-    <div className="py-20 container max-w-screen-xl">
-      <div className="mb-10">
-        <PageHeading>Generate Job Description</PageHeading>
-        <PageSubheading>
+    <PageContainer>
+      <PageHeader>
+        <PageHeaderTitle>Generate Job Description</PageHeaderTitle>
+        <PageHeaderSubheading>
           Generate job description in just few steps
-        </PageSubheading>
-      </div>
+        </PageHeaderSubheading>
+      </PageHeader>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -309,6 +321,6 @@ export default function GenerateJD() {
           </Button>
         </form>
       </Form>
-    </div>
+    </PageContainer>
   );
 }
