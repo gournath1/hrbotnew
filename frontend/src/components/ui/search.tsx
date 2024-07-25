@@ -37,7 +37,7 @@ export const SearchIcon = React.forwardRef<
   />
 ));
 
-export const SearchFilerInput = React.forwardRef<
+export const SearchFilterInput = React.forwardRef<
   React.ElementRef<typeof SearchInput>,
   React.ComponentPropsWithoutRef<typeof SearchInput> & {
     table: Table<any>;

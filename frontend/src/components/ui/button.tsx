@@ -1,8 +1,8 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
@@ -31,26 +31,104 @@ const buttonVariants = cva(
       size: "default",
     },
   }
-)
+);
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+  asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
+    const Comp = asChild ? Slot : "button";
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       />
-    )
+    );
   }
-)
-Button.displayName = "Button"
+);
+Button.displayName = "Button";
 
-export { Button, buttonVariants }
+export { Button, buttonVariants };
+
+export interface LargeButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export const LargeButton = React.forwardRef<
+  HTMLButtonElement,
+  LargeButtonProps
+>(({ className, children, ...props }, ref) => (
+  <button
+    ref={ref}
+    className={cn(
+      "flex items-center justify-center border-[1px] border-muted-foreground/20 p-8 rounded-md w-full",
+      className
+    )}
+    {...props}
+  >
+    {children}
+  </button>
+));
+
+export interface LargeButtonIconProps
+  extends React.HtmlHTMLAttributes<HTMLDivElement> {}
+
+export const LargeButtonIcon = React.forwardRef<
+  HTMLDivElement,
+  LargeButtonIconProps
+>(({ className, children, ...props }, ref) => (
+  <div ref={ref} className={cn("mr-2", className)} {...props}>
+    {children}
+  </div>
+));
+
+export interface LargeButtonContentProps
+  extends React.HtmlHTMLAttributes<HTMLDivElement> {}
+
+export const LargeButtonContent = React.forwardRef<
+  HTMLDivElement,
+  LargeButtonContentProps
+>(({ className, children, ...props }, ref) => (
+  <div ref={ref} className={cn("text-left", className)} {...props}>
+    {children}
+  </div>
+));
+
+export interface LargeButtonTitleProps
+  extends React.HtmlHTMLAttributes<HTMLSpanElement> {}
+
+export const LargeButtonTitle = React.forwardRef<
+  HTMLSpanElement,
+  LargeButtonTitleProps
+>(({ className, children, ...props }, ref) => (
+  <span
+    ref={ref}
+    className={cn(
+      "block text-muted-foreground text-lg font-semibold",
+      className
+    )}
+    {...props}
+  >
+    {children}
+  </span>
+));
+
+export interface LargeButtonSubtitleProps
+  extends React.HtmlHTMLAttributes<HTMLSpanElement> {}
+
+export const LargeButtonSubtitle = React.forwardRef<
+  HTMLSpanElement,
+  LargeButtonSubtitleProps
+>(({ className, children, ...props }, ref) => (
+  <span
+    ref={ref}
+    className={cn("block text-sm text-muted-foreground/80", className)}
+    {...props}
+  >
+    {children}
+  </span>
+));

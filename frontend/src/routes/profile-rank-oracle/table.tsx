@@ -1,5 +1,5 @@
 import { DataTableUI } from "@/components/ui/data-table-ui";
-import { Search, SearchFilerInput, SearchIcon } from "@/components/ui/search";
+import { Search, SearchFilterInput, SearchIcon } from "@/components/ui/search";
 import {
   ColumnFiltersState,
   getCoreRowModel,
@@ -28,7 +28,7 @@ export default function ProfileRankOracleTable() {
       <div className="flex justify-end my-5">
         <Search>
           <SearchIcon />
-          <SearchFilerInput
+          <SearchFilterInput
             table={table}
             columName="jobRequisition"
             placeholder="Filter by Job"

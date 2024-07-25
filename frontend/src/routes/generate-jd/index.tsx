@@ -17,14 +17,18 @@ import AutoComplete from "./auto-complete";
 import { Field, FieldType } from "./type";
 
 import { generateJD } from "@/api/generate-jd";
-import { PageContainer, PageHeaderSection } from "@/components/layout";
-import { PageHeading, PageSubheading } from "@/components/typography";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { PageContainer } from "@/components/ui/layout";
+import {
+  PageHeader,
+  PageHeaderSubheading,
+  PageHeaderTitle,
+} from "@/components/ui/page-header";
 import {
   Select,
   SelectContent,
@@ -273,12 +277,12 @@ export default function GenerateJD() {
 
   return (
     <PageContainer>
-      <PageHeaderSection>
-        <PageHeading>Generate Job Description</PageHeading>
-        <PageSubheading>
+      <PageHeader>
+        <PageHeaderTitle>Generate Job Description</PageHeaderTitle>
+        <PageHeaderSubheading>
           Generate job description in just few steps
-        </PageSubheading>
-      </PageHeaderSection>
+        </PageHeaderSubheading>
+      </PageHeader>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
