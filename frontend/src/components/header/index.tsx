@@ -1,6 +1,7 @@
+import Logo from "@/assets/aiLogo.png";
 import { cn } from "@/lib/utils";
-import { links } from "@/links";
-import { NavLink } from "react-router-dom";
+import { links, routes } from "@/links";
+import { Link, NavLink } from "react-router-dom";
 import SmallScreenHeaderDrawer from "./small";
 import UserAvatar from "./user-avatar";
 
@@ -8,7 +9,9 @@ export default function Header() {
   return (
     <nav className="border-b-[1px] border-b-neutral-100">
       <div className="container max-w-screen-xl flex justify-between items-center">
-        <div>AI Labs</div>
+        <Link to={routes.home}>
+          <img src={Logo} className="h-[50px]" />
+        </Link>
 
         <div className="lg:hidden">
           <SmallScreenHeaderDrawer />
