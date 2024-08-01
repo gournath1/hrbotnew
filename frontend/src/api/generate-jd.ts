@@ -31,11 +31,26 @@ function delay() {
 export async function generateJD(
   props: GenerateJDProps
 ): Promise<GenerateJDResponse> {
+  const data = {
+    job_title: props.jobTitle,
+    industry: props.industry,
+    location: props.location,
+    experience: props.experience,
+    educational_qualification: props.education,
+    key_responsibilities: props.keySkills,
+    behavioural_skills: props.behavioralSkills,
+    certifications: props.certification,
+    Technical_skills: "",
+    model: props.model,
+    creativity: props.creativity,
+    token: "medium",
+  };
+
   const res = await axios.request({
     baseURL: import.meta.env.VITE_API_ENDPOINT,
     method: "post",
     url: "/create-jd",
-    data: props,
+    data,
   });
   return res.data as GenerateJDResponse;
 }
