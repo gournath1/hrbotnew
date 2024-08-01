@@ -1,3 +1,5 @@
+import axios from "axios";
+
 interface GenerateJDProps {
   industry: string;
   jobTitle: string;
@@ -15,8 +17,25 @@ interface GenerateJDProps {
   endpoint?: string;
 }
 
-export async function generateJD(props: GenerateJDProps) {
-  throw new Error("Something went wrong");
+interface GenerateJDResponse {
+  message: string;
+  url: string;
+}
 
-  // this can fail or pass
+function delay() {
+  return new Promise((res) => {
+    setTimeout(res, 5000);
+  });
+}
+
+export async function generateJD(
+  props: GenerateJDProps
+): Promise<GenerateJDResponse> {
+  const res = await axios.request({
+    baseURL: import.meta.env.VITE_API_ENDPOINT,
+    method: "post",
+    url: "/create-jd",
+    data: props,
+  });
+  return res.data as GenerateJDResponse;
 }

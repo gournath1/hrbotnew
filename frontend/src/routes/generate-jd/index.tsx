@@ -36,8 +36,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
+import { cn, downloadURI } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 import autoCompleteData from "./autofill_master.json";
 
 const formSchema = z.object({
@@ -196,6 +197,9 @@ export default function GenerateJD() {
 
   const mutation = useMutation({
     mutationFn: generateJD,
+    onSuccess(data) {
+      downloadURI(data.url, "jd.docx");
+    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -316,7 +320,15 @@ export default function GenerateJD() {
             </AccordionItem>
           </Accordion>
 
-          <Button type="submit" className="w-full" size="lg">
+          <Button
+            type="submit"
+            className="w-full"
+            size="lg"
+            disabled={mutation.isPending}
+          >
+            {mutation.isPending && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
             Generate JD
           </Button>
         </form>
